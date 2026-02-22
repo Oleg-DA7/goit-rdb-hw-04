@@ -47,8 +47,20 @@ SELECT cat.name, count(*), avg(od.quantity) as avg_q FROM
     HAVING avg(od.quantity) > 21
     ORDER BY 3 DESC;
 
-# Виведіть на екран (оберіть) чотири рядки з пропущеним першим рядком ??? не зрозуміло
-
+# Виведіть на екран (оберіть) чотири рядки з пропущеним першим рядком
+SELECT cat.name, count(*), avg(od.quantity) as avg_q FROM 
+	orders o INNER JOIN customers cus ON o.customer_id = cus.id
+		INNER JOIN employees e ON o.employee_id = e.employee_id
+        INNER JOIN shippers sh ON o.shipper_id = sh.id
+        INNER JOIN order_details od ON o.id = od.order_id
+        LEFT JOIN products p ON od.product_id = p.id        
+        LEFT JOIN suppliers sup ON p.supplier_id = sup.id
+        LEFT JOIN categories cat ON p.category_id = cat.id
+	GROUP BY cat.name
+    HAVING avg(od.quantity) > 21
+    ORDER BY 3 DESC
+    LIMIT 2, 4
+   
 
 
     
